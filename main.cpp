@@ -34,11 +34,20 @@ public:
 class Product
 {
 private:
-    string productName = "", productDescription = "";
+    string productName = "", productDescription = "", productTitle = "";
     float productRating = 0;
     double productPrice = 0, productQuantity = 0;
 
 public:
+    void setProduct(const string &newProductName, const string &newProductDescription, const float &newProductRating, const double &newProductPrice, const double &newProductQuantity)
+    {
+        productName = newProductName;
+        productDescription = newProductDescription;
+        productRating = newProductRating;
+        productPrice = newProductPrice;
+        productQuantity = newProductQuantity;
+    }
+
     void addProduct()
     {
         cout << "Product name: ";
@@ -58,7 +67,7 @@ public:
             }
             else
             {
-                cout << "Rating should be between 0 and 5";
+                cout << "Rating should be between 0 and 5" << endl;
             }
         }
 
@@ -69,7 +78,7 @@ public:
         cin >> productQuantity;
 
         cin.ignore();
-    };
+    }
 
     void showProduct()
     {
@@ -80,6 +89,63 @@ public:
         cout << "Product rating: " << productRating << endl;
         cout << "Product quantity: " << productQuantity << endl;
     }
+
+    void searchProduct(Product product[], int size)
+    {
+        cout << "-----------------------------------------" << endl;
+        cout << "|  ";
+        cout << "           Search products";
+        cout << "           |" << endl;
+        cout << "-----------------------------------------" << endl;
+
+        cout << "Enter product to search: ";
+        getline(cin, productTitle);
+        bool found = false;
+        for (int i = 0; i < size; i++)
+        {
+            if (productTitle == product[i].productName)
+            {
+                cout << "Product found: " << endl;
+                product[i].showProduct();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            cout << "Product not found" << endl;
+        }
+    }
+
+    void updateProduct(Product product[], int size, const string &newProductName, const string &newProductDescription, const float &newProductRating, const double &newProductPrice, const double &newProductQuantity)
+    {
+        cout << "-----------------------------------------" << endl;
+        cout << "|  ";
+        cout << "           Update product";
+        cout << "           |" << endl;
+        cout << "-----------------------------------------" << endl;
+
+        cout << "Enter product to update: ";
+        getline(cin, productTitle);
+        bool found = false;
+        for (int i = 0; i < size; i++)
+        {
+            if (productTitle == product[i].productName)
+            {
+                product[i].setProduct(newProductName, newProductDescription, newProductRating, newProductPrice, newProductQuantity);
+                cout << "Product updated: " << endl;
+                product[i].showProduct();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            cout << "Product not found" << endl;
+        }
+    }
 };
 
 int main()
@@ -87,7 +153,10 @@ int main()
     const string adminEmail = "admin@admin.com";
     const string adminPassword = "admin123";
     string getAdminEmail, getAdminPass, newName;
-    int size = 3;
+    string newProductName, newProductDescription;
+    float newProductRating;
+    double newProductPrice, newProductQuantity;
+    int size = 2;
     User user;
     Product product[size];
 
@@ -111,9 +180,9 @@ int main()
         cout << "Enter admin password: ";
         getline(cin, getAdminPass);
 
-        while (true)
+        if (adminEmail == getAdminEmail && adminPassword == getAdminPass)
         {
-            if (adminEmail == getAdminEmail && adminPassword == getAdminPass)
+            while (true)
             {
                 cout << "-----------------------------------------" << endl;
                 cout << "|  ";
@@ -124,9 +193,10 @@ int main()
                 cout << "2. Show products" << endl;
                 cout << "3. Update product" << endl;
                 cout << "4. Delete product" << endl;
-                cout << "5. Logout" << endl;
+                cout << "5. Search product" << endl;
+                cout << "6. Logout" << endl;
 
-                cout << "Choose from (1 to 5): ";
+                cout << "Choose from (1 to 6): ";
                 getline(cin, option);
 
                 if (option == "1" || option == "Add product" || option == "add product" || option == "add")
@@ -136,8 +206,7 @@ int main()
                         product[i].addProduct();
                     }
                 }
-
-                if (option == "2" || option == "Show product" || option == "show product" || option == "show")
+                else if (option == "2" || option == "Show product" || option == "show product" || option == "show")
                 {
                     cout << "-----------------------------------------" << endl;
                     cout << "|  ";
@@ -149,17 +218,58 @@ int main()
                         product[i].showProduct();
                     }
                 }
-
-                if (option == "5" || option == "Logout" || option == "logout" || option == "quit")
+                else if (option == "3" || option == "Update product" || option == "update product" || option == "update")
                 {
-                    return 0;
+                    cout << "Product name: ";
+                    getline(cin, newProductName);
+
+                    cout << "Product description: ";
+                    getline(cin, newProductDescription);
+
+                    while (true)
+                    {
+                        cout << "Product rating (0 - 5): ";
+                        cin >> newProductRating;
+
+                        if (newProductRating >= 0 && newProductRating <= 5)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            cout << "Rating should be between 0 and 5" << endl;
+                        }
+                    }
+
+                    cout << "Product price: ";
+                    cin >> newProductPrice;
+
+                    cout << "Product quantity: ";
+                    cin >> newProductQuantity;
+
+                    cin.ignore();
+                    for (int i = 0; i < size; i++)
+                    {
+                        product[i].updateProduct(product, size, newProductName, newProductDescription, newProductRating, newProductPrice, newProductQuantity);
+                    }
+                }
+                else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
+                {
+                    product[0].searchProduct(product, size);
+                }
+                else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
+                {
+                    break;
+                }
+                else
+                {
+                    cout << "Invalid option, please try again." << endl;
                 }
             }
-            else
-            {
-                cout << "Incorrect credentials";
-                return 0;
-            }
+        }
+        else
+        {
+            cout << "Incorrect credentials" << endl;
         }
     }
     else if (option == "user" || option == "User" || option == "2")
@@ -179,8 +289,9 @@ int main()
             cout << "3. Update profile" << endl;
             cout << "4. Show profile" << endl;
             cout << "5. Logout" << endl;
+            cout << "6. Search Product" << endl;
 
-            cout << "Choose from (1 to 3): ";
+            cout << "Choose from (1 to 6): ";
             getline(cin, option);
 
             if (option == "1" || option == "Show product" || option == "show product" || option == "show")
@@ -195,28 +306,33 @@ int main()
                     product[i].showProduct();
                 }
             }
-
-            if (option == "3" || option == "Update profile" || option == "update profile" || option == "update")
+            else if (option == "3" || option == "Update profile" || option == "update profile" || option == "update")
             {
                 cout << "Enter your name: ";
                 getline(cin, newName);
                 user.updateUser(newName);
             }
-
-            if (option == "4" || option == "Show Profile" || option == "show profile" || option == "profile")
+            else if (option == "4" || option == "Show Profile" || option == "show profile" || option == "profile")
             {
                 user.showProfile();
             }
-
-            if (option == "5" || option == "Logout" || option == "logout" || option == "quit")
+            else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
             {
-                return 0;
+                product[0].searchProduct(product, size);
+            }
+            else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
+            {
+                break;
+            }
+            else
+            {
+                cout << "Invalid option, please try again." << endl;
             }
         }
     }
     else
     {
-        cout << "Incorrect option: ";
+        cout << "Incorrect option: " << endl;
     }
 
     return 0;

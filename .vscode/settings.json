@@ -3,6 +3,10 @@
     "*.ejs": "html",
     "iostream": "cpp",
     "ostream": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "array": "cpp",
+    "initializer_list": "cpp",
+    "utility": "cpp",
+    "*.tcc": "cpp"
   }
 }
