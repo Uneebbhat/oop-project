@@ -118,7 +118,7 @@ public:
         }
     }
 
-    void updateProduct(Product product[], int size, const string &newProductName, const string &newProductDescription, const float &newProductRating, const double &newProductPrice, const double &newProductQuantity)
+    void updateProduct(Product product[], int size)
     {
         cout << "-----------------------------------------" << endl;
         cout << "|  ";
@@ -129,10 +129,46 @@ public:
         cout << "Enter product to update: ";
         getline(cin, productTitle);
         bool found = false;
+
         for (int i = 0; i < size; i++)
         {
             if (productTitle == product[i].productName)
             {
+                cout << "Enter new product details:" << endl;
+
+                string newProductName, newProductDescription;
+                float newProductRating;
+                double newProductPrice, newProductQuantity;
+
+                cout << "Product name: ";
+                getline(cin, newProductName);
+
+                cout << "Product description: ";
+                getline(cin, newProductDescription);
+
+                while (true)
+                {
+                    cout << "Product rating (0 - 5): ";
+                    cin >> newProductRating;
+
+                    if (newProductRating >= 0 && newProductRating <= 5)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Rating should be between 0 and 5" << endl;
+                    }
+                }
+
+                cout << "Product price: ";
+                cin >> newProductPrice;
+
+                cout << "Product quantity: ";
+                cin >> newProductQuantity;
+
+                cin.ignore();
+
                 product[i].setProduct(newProductName, newProductDescription, newProductRating, newProductPrice, newProductQuantity);
                 cout << "Product updated: " << endl;
                 product[i].showProduct();
@@ -153,9 +189,6 @@ int main()
     const string adminEmail = "admin@admin.com";
     const string adminPassword = "admin123";
     string getAdminEmail, getAdminPass, newName;
-    string newProductName, newProductDescription;
-    float newProductRating;
-    double newProductPrice, newProductQuantity;
     int size = 2;
     User user;
     Product product[size];
@@ -220,38 +253,7 @@ int main()
                 }
                 else if (option == "3" || option == "Update product" || option == "update product" || option == "update")
                 {
-                    cout << "Product name: ";
-                    getline(cin, newProductName);
-
-                    cout << "Product description: ";
-                    getline(cin, newProductDescription);
-
-                    while (true)
-                    {
-                        cout << "Product rating (0 - 5): ";
-                        cin >> newProductRating;
-
-                        if (newProductRating >= 0 && newProductRating <= 5)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            cout << "Rating should be between 0 and 5" << endl;
-                        }
-                    }
-
-                    cout << "Product price: ";
-                    cin >> newProductPrice;
-
-                    cout << "Product quantity: ";
-                    cin >> newProductQuantity;
-
-                    cin.ignore();
-                    for (int i = 0; i < size; i++)
-                    {
-                        product[i].updateProduct(product, size, newProductName, newProductDescription, newProductRating, newProductPrice, newProductQuantity);
-                    }
+                    product[0].updateProduct(product, size);
                 }
                 else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
                 {
