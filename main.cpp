@@ -7,7 +7,7 @@ using namespace std;
 class User
 {
 private:
-    string name, role;
+    string name;
 
 public:
     void setName(const string &newName)
