@@ -184,6 +184,48 @@ public:
     }
 };
 
+class Wishlist : public Product
+{
+private:
+    Product wishlist[2];
+    int count = 0;
+
+public:
+    void addToWishlist(Product p)
+    {
+        if (count < 2)
+        {
+            wishlist[count] = p;
+            count++;
+            cout << "Product added to wishlist." << endl;
+        }
+        else
+        {
+            cout << "Wishlist is full." << endl;
+        }
+    }
+
+    void showWishlist()
+    {
+        if (count == 0)
+        {
+            cout << "Wishlist is empty." << endl;
+        }
+        else
+        {
+            cout << "-----------------------------------------" << endl;
+            cout << "|  ";
+            cout << "           Wishlist";
+            cout << "                |" << endl;
+            cout << "-----------------------------------------" << endl;
+            for (int i = 0; i < count; i++)
+            {
+                wishlist[i].showProduct();
+            }
+        }
+    }
+};
+
 void mainMenu();
 
 void adminMenu()
@@ -212,9 +254,8 @@ void adminMenu()
             cout << "1. Add product" << endl;
             cout << "2. Show products" << endl;
             cout << "3. Update product" << endl;
-            cout << "4. Delete product" << endl;
-            cout << "5. Search product" << endl;
-            cout << "6. Logout" << endl;
+            cout << "4. Search product" << endl;
+            cout << "5. Logout" << endl;
 
             cout << "Choose from (1 to 6): ";
             getline(cin, option);
@@ -242,11 +283,11 @@ void adminMenu()
             {
                 product[0].updateProduct(product, size);
             }
-            else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
+            else if (option == "4" || option == "Search Product" || option == "search product" || option == "search")
             {
                 product[0].searchProduct(product, size);
             }
-            else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
+            else if (option == "5" || option == "Logout" || option == "logout" || option == "quit")
             {
                 mainMenu();
             }
@@ -269,6 +310,7 @@ void userMenu()
     User user;
     Product product[size];
     string option;
+    Wishlist wishlist;
 
     cout << "Enter your name: ";
     getline(cin, newName);
@@ -285,7 +327,9 @@ void userMenu()
         cout << "3. Update profile" << endl;
         cout << "4. Show profile" << endl;
         cout << "5. Search Product" << endl;
-        cout << "6. Logout" << endl;
+        cout << "6. Add wishlist" << endl;
+        cout << "7. Show Wish List" << endl;
+        cout << "8. Logout" << endl;
 
         cout << "Choose from (1 to 6): ";
         getline(cin, option);
@@ -316,7 +360,16 @@ void userMenu()
         {
             product[0].searchProduct(product, size);
         }
-        else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
+        else if (option == "6" || option == "Add wishlist" || option == "wishlist")
+        {
+            product[0].addProduct();
+            wishlist.addToWishlist(product[0]);
+        }
+        else if (option == "7" || option == "Show wishlist")
+        {
+            wishlist.showWishlist();
+        }
+        else if (option == "8" || option == "Logout" || option == "logout" || option == "quit")
         {
             mainMenu();
         }
