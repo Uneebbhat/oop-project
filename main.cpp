@@ -184,119 +184,49 @@ public:
     }
 };
 
-int main()
+void mainMenu();
+
+void adminMenu()
 {
     const string adminEmail = "admin@admin.com";
     const string adminPassword = "admin123";
-    string getAdminEmail, getAdminPass, newName;
+    string getAdminEmail, getAdminPass;
     int size = 2;
-    User user;
     Product product[size];
-
     string option;
-    cout << "Menu" << endl;
-    cout << "-----------------------------------------" << endl;
-    cout << "|  ";
-    cout << "              Login";
-    cout << "                  |" << endl;
-    cout << "-----------------------------------------" << endl;
-    cout << "1. Admin" << endl;
-    cout << "2. User" << endl;
 
-    cout << "Choose option: ";
-    getline(cin, option);
+    cout << "Enter admin email: ";
+    getline(cin, getAdminEmail);
+    cout << "Enter admin password: ";
+    getline(cin, getAdminPass);
 
-    if (option == "admin" || option == "Admin" || option == "1")
+    if (adminEmail == getAdminEmail && adminPassword == getAdminPass)
     {
-        cout << "Enter admin email: ";
-        getline(cin, getAdminEmail);
-        cout << "Enter admin password: ";
-        getline(cin, getAdminPass);
-
-        if (adminEmail == getAdminEmail && adminPassword == getAdminPass)
-        {
-            while (true)
-            {
-                cout << "-----------------------------------------" << endl;
-                cout << "|  ";
-                cout << "           Welcome Admin";
-                cout << "             |" << endl;
-                cout << "-----------------------------------------" << endl;
-                cout << "1. Add product" << endl;
-                cout << "2. Show products" << endl;
-                cout << "3. Update product" << endl;
-                cout << "4. Delete product" << endl;
-                cout << "5. Search product" << endl;
-                cout << "6. Logout" << endl;
-
-                cout << "Choose from (1 to 6): ";
-                getline(cin, option);
-
-                if (option == "1" || option == "Add product" || option == "add product" || option == "add")
-                {
-                    for (int i = 0; i < size; i++)
-                    {
-                        product[i].addProduct();
-                    }
-                }
-                else if (option == "2" || option == "Show product" || option == "show product" || option == "show")
-                {
-                    cout << "-----------------------------------------" << endl;
-                    cout << "|  ";
-                    cout << "           See all products";
-                    cout << "          |" << endl;
-                    cout << "-----------------------------------------" << endl;
-                    for (int i = 0; i < size; i++)
-                    {
-                        product[i].showProduct();
-                    }
-                }
-                else if (option == "3" || option == "Update product" || option == "update product" || option == "update")
-                {
-                    product[0].updateProduct(product, size);
-                }
-                else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
-                {
-                    product[0].searchProduct(product, size);
-                }
-                else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
-                {
-                    break;
-                }
-                else
-                {
-                    cout << "Invalid option, please try again." << endl;
-                }
-            }
-        }
-        else
-        {
-            cout << "Incorrect credentials" << endl;
-        }
-    }
-    else if (option == "user" || option == "User" || option == "2")
-    {
-        cout << "Enter your name: ";
-        getline(cin, newName);
-        user.setName(newName);
         while (true)
         {
             cout << "-----------------------------------------" << endl;
             cout << "|  ";
-            cout << "           Welcome " << user.getName();
-            cout << "              |" << endl;
+            cout << "           Welcome Admin";
+            cout << "             |" << endl;
             cout << "-----------------------------------------" << endl;
-            cout << "1. Show products" << endl;
-            cout << "2. Add to cart" << endl;
-            cout << "3. Update profile" << endl;
-            cout << "4. Show profile" << endl;
-            cout << "5. Logout" << endl;
-            cout << "6. Search Product" << endl;
+            cout << "1. Add product" << endl;
+            cout << "2. Show products" << endl;
+            cout << "3. Update product" << endl;
+            cout << "4. Delete product" << endl;
+            cout << "5. Search product" << endl;
+            cout << "6. Logout" << endl;
 
             cout << "Choose from (1 to 6): ";
             getline(cin, option);
 
-            if (option == "1" || option == "Show product" || option == "show product" || option == "show")
+            if (option == "1" || option == "Add product" || option == "add product" || option == "add")
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    product[i].addProduct();
+                }
+            }
+            else if (option == "2" || option == "Show product" || option == "show product" || option == "show")
             {
                 cout << "-----------------------------------------" << endl;
                 cout << "|  ";
@@ -308,15 +238,9 @@ int main()
                     product[i].showProduct();
                 }
             }
-            else if (option == "3" || option == "Update profile" || option == "update profile" || option == "update")
+            else if (option == "3" || option == "Update product" || option == "update product" || option == "update")
             {
-                cout << "Enter your name: ";
-                getline(cin, newName);
-                user.updateUser(newName);
-            }
-            else if (option == "4" || option == "Show Profile" || option == "show profile" || option == "profile")
-            {
-                user.showProfile();
+                product[0].updateProduct(product, size);
             }
             else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
             {
@@ -324,7 +248,7 @@ int main()
             }
             else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
             {
-                break;
+                mainMenu();
             }
             else
             {
@@ -334,8 +258,112 @@ int main()
     }
     else
     {
+        cout << "Incorrect credentials" << endl;
+    }
+}
+
+void userMenu()
+{
+    string newName;
+    int size = 2;
+    User user;
+    Product product[size];
+    string option;
+
+    cout << "Enter your name: ";
+    getline(cin, newName);
+    user.setName(newName);
+    while (true)
+    {
+        cout << "-----------------------------------------" << endl;
+        cout << "|  ";
+        cout << "           Welcome " << user.getName();
+        cout << "              |" << endl;
+        cout << "-----------------------------------------" << endl;
+        cout << "1. Show products" << endl;
+        cout << "2. Add to cart" << endl;
+        cout << "3. Update profile" << endl;
+        cout << "4. Show profile" << endl;
+        cout << "5. Search Product" << endl;
+        cout << "6. Logout" << endl;
+
+        cout << "Choose from (1 to 6): ";
+        getline(cin, option);
+
+        if (option == "1" || option == "Show product" || option == "show product" || option == "show")
+        {
+            cout << "-----------------------------------------" << endl;
+            cout << "|  ";
+            cout << "           See all products";
+            cout << "          |" << endl;
+            cout << "-----------------------------------------" << endl;
+            for (int i = 0; i < size; i++)
+            {
+                product[i].showProduct();
+            }
+        }
+        else if (option == "3" || option == "Update profile" || option == "update profile" || option == "update")
+        {
+            cout << "Enter your name: ";
+            getline(cin, newName);
+            user.updateUser(newName);
+        }
+        else if (option == "4" || option == "Show Profile" || option == "show profile" || option == "profile")
+        {
+            user.showProfile();
+        }
+        else if (option == "5" || option == "Search Product" || option == "search product" || option == "search")
+        {
+            product[0].searchProduct(product, size);
+        }
+        else if (option == "6" || option == "Logout" || option == "logout" || option == "quit")
+        {
+            mainMenu();
+        }
+        else
+        {
+            cout << "Invalid option, please try again." << endl;
+        }
+    }
+}
+
+void mainMenu()
+{
+    string option;
+    cout << "Menu" << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "|  ";
+    cout << "              Login";
+    cout << "                  |" << endl;
+    cout << "-----------------------------------------" << endl;
+    cout << "1. Admin" << endl;
+    cout << "2. User" << endl;
+    cout << "3. Exit" << endl;
+
+    cout << "Choose option: ";
+    getline(cin, option);
+
+    if (option == "admin" || option == "Admin" || option == "1")
+    {
+        adminMenu();
+    }
+    else if (option == "user" || option == "User" || option == "2")
+    {
+        userMenu();
+    }
+    else if (option == "exit" || option == "3")
+    {
+        return;
+    }
+    else
+    {
         cout << "Incorrect option: " << endl;
     }
+}
+
+int main()
+{
+    mainMenu();
 
     return 0;
 }
